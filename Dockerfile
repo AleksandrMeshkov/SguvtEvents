@@ -1,7 +1,7 @@
 FROM php:8.3-apache
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libpng-dev libzip-dev \
+    && apt-get install -y --no-install-recommends libpng-dev libzip-dev libxml2-dev \
     && docker-php-ext-install pdo_mysql gd zip xml \
     && rm -rf /var/lib/apt/lists/* \
     && a2enmod rewrite
