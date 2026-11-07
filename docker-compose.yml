@@ -1,0 +1,41 @@
+services:
+  app:
+    build:
+      context: .
+    container_name: sguvt-events-app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:80"
+    environment:
+      DB_HOST: db
+      DB_NAME: ${DB_NAME:-sguvt_events_db}
+      DB_USER: ${DB_USER:-sguvt_user}
+      DB_PASS: ${DB_PASS:-change_me}
+      DB_CHARSET: ${DB_CHARSET:-utf8mb4}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./server/libs:/var/www/server/libs
+
+  db:
+    image: mariadb:10.11
+    container_name: sguvt-events-db
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${DB_NAME:-sguvt_events_db}
+      MARIADB_USER: ${DB_USER:-sguvt_user}
+      MARIADB_PASSWORD: ${DB_PASS:-change_me}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASS:-change_root_me}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./sql/create_db.sql:/docker-entrypoint-initdb.d/01-create_db.sql:ro
+      - ./sql/fill_db.sql:/docker-entrypoint-initdb.d/02-fill_db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h localhost -u root -p$${MARIADB_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  db_data:

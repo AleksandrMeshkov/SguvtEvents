@@ -122,6 +122,33 @@ GitHub хранит исходный код проекта, но GitHub Pages н
 
 Для локального запуска с портативным комплектом используйте `start_server.bat`. Он требует папку `server/`, которая намеренно не входит в GitHub-репозиторий.
 
+### Запуск через Docker на Ubuntu
+
+На Ubuntu используйте Docker Compose, а не `start_server.bat`:
+
+```bash
+git clone https://github.com/AleksandrMeshkov/SguvtEvents.git sguvt-events
+cd sguvt-events
+cp .env.example .env
+nano .env
+docker compose up -d --build
+```
+
+В `.env` замените `DB_PASS` и `DB_ROOT_PASS` на сложные пароли. После запуска приложение доступно на порту `APP_PORT` (по умолчанию `8080`):
+
+```text
+http://IP_СЕРВЕРА:8080
+```
+
+База данных автоматически создаётся при первом запуске контейнера. Данные MariaDB хранятся в Docker volume `db_data`. Для работы экспорта PDF/Word скопируйте `server/libs/libs.phar` в одноимённый каталог на сервере: папка `server/` исключена из GitHub.
+
+```bash
+docker compose logs -f app
+docker compose down
+```
+
+Не используйте `docker compose down -v`, если нужно сохранить базу данных.
+
 ### Структура исходного кода
 
 - `src/includes/config.php` - Конфигурация БД и константы

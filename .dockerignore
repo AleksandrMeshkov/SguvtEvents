@@ -1,0 +1,9 @@
+.git
+.gitignore
+.env
+logs
+server/mysql
+server/php
+README.md
+AUDIT_REPORT.md
+*.bat
