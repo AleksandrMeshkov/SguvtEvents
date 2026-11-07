@@ -1,0 +1,22 @@
+# Local runtime bundle
+/server/
+/logs/
+
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Generated export/runtime files
+*.log
+/server/libs/tcpdf_fonts/
+
+# Temporary files
+*.tmp
+*.bak
