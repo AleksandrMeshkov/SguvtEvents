@@ -140,7 +140,13 @@ docker compose up -d --build
 http://IP_СЕРВЕРА:8080
 ```
 
-База данных автоматически создаётся при первом запуске контейнера. Данные MariaDB хранятся в Docker volume `db_data`. Для работы экспорта PDF/Word скопируйте `server/libs/libs.phar` в одноимённый каталог на сервере: папка `server/` исключена из GitHub.
+База данных автоматически создаётся при первом запуске контейнера. Данные MariaDB хранятся в Docker volume `db_data`. При сборке Docker автоматически устанавливает библиотеки TCPDF и PHPWord через Composer, поэтому `server/libs/libs.phar` для Docker-развёртывания не нужен.
+
+После изменения зависимостей пересоберите приложение:
+
+```bash
+docker compose up -d --build --force-recreate app
+```
 
 ```bash
 docker compose logs -f app

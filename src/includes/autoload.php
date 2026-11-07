@@ -7,6 +7,13 @@
  * 2. Development: загрузка из src/lib/
  */
 
+// В Docker/Linux зависимости устанавливаются Composer-ом.
+$composerAutoload = __DIR__ . '/../../vendor/autoload.php';
+if (file_exists($composerAutoload)) {
+    require_once $composerAutoload;
+    return;
+}
+
 // Путь к PHAR-архиву (внутри папки server)
 $pharPath = __DIR__ . '/../../server/libs/libs.phar';
 

@@ -4,6 +4,7 @@
 logs
 server/mysql
 server/php
+server/libs/tcpdf_fonts
 README.md
 AUDIT_REPORT.md
 *.bat
